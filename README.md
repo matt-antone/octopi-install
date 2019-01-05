@@ -16,8 +16,8 @@ Before starting your installation, it's best to gather some things together firs
 - [x] Short USB serial cable (usually Type B to Type A style) with either internal metallic shielding or with one or two ferrite cores
 - [x] Raspberry Pi 3B (or 3B+)
 - [x] 4GB or larger microSD card
-- [x] Workstation of some kind (OSX, Windows, Linux)
-- [x] A means of inserting a microSD card into this workstation (SD adapter or a USB-based microSD adapter)
+- [x] A remote computer of some kind (OSX, Windows, Linux)
+- [x] A means of inserting a microSD card into this remote computer (SD adapter or a USB-based microSD adapter)
 - [x] 3D printer which has a Type B USB connector and which runs a compatible firmware: Marlin, RepRap, Repetier. Check the [compatibility list](https://github.com/foosel/OctoPrint/wiki/Supported-Printers) first. In a few cases, you may need a plugin for your printer to work with OctoPrint.
 
 ### Optional
@@ -26,20 +26,21 @@ Before starting your installation, it's best to gather some things together firs
 - [ ] Local TFT or similar touch screen for the Raspberry [1](#SunFounder)
 
 ### Required software
-1. If you don't otherwise have it on your workstation, download and install [Etcher](https://www.balena.io/etcher/).
-2. Download the latest OctoPi image and save it as a zip file on your computer's **Desktop** folder. To minimize browser-unzip problems, the recommended method is:
+1. If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/).
+2. If you're on Windows and you don't otherwise have it on your remote computer, download and install [Notepad++](https://notepad-plus-plus.org)
+3. Download the latest OctoPi image and save it as a zip file on your computer's **Desktop** folder. To minimize browser-unzip problems, the recommended method is:
 
 ```
 curl -L -o ~/Desktop/octopi.zip https://octopi.octoprint.org/latest
 ```
 
-Copy/paste this into a command prompt on your workstation.
+Copy/paste this into a command prompt on your remote computer.
 
 ![desktopwithoctopi](https://user-images.githubusercontent.com/15971213/50716686-99238b80-1037-11e9-925d-d40c00fae788.png)
 
 ## Installation
-1. If you don't otherwise have it on your workstation, download and install [Etcher](https://www.balena.io/etcher/)
-2. Insert the microSD card into your workstation, start Etcher, select the `octopi.zip` file on your Desktop, verify that your microSD media is selected and press `Flash!`
+1. If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/)
+2. Insert the microSD card into your remote computer, start Etcher, select the `octopi.zip` file on your Desktop, verify that your microSD media is selected and press `Flash!`
 
 ![etcherscreenshot](https://user-images.githubusercontent.com/15971213/50716913-d6d4e400-1038-11e9-9645-3a4004a37971.png)
 
@@ -55,7 +56,7 @@ Copy/paste this into a command prompt on your workstation.
 &nbsp;2. Using a safe editor, you need to edit a file called `octopi-wpa-supplicant.txt` which is located on the `boot` partition.
 
    * **OSX**: From **Terminal**, `sudo nano /Volumes/boot/octopi-wpa-supplicant.txt`
-   * **Windows**: In **Explorer**, go to the `boot` disk, right-mouse click on `octopi-wpa-supplicant.txt` and choose **Open With...** -> **Notepad++**
+   * **Windows**: In **Explorer**, go to the `boot` disk, right-mouse click on `octopi-wpa-supplicant.txt` and choose **Open With...** -> **Notepad++** (make sure UTF-8 encoding is selected)
    * **Linux**: If you're in a Desktop interface, you should be able to double-click this file in the `boot` partition. Otherwise, using `sudo nano` to edit the file would be necessary once you find the mount point.
    * Erase all the file's original contents and replace with this to begin with.
 
@@ -74,7 +75,7 @@ network={
    * Now **edit the wi-fi zone's SSID and password**, noting that these are **both case-sensitive**. Make sure that you've left the double quotes on either side of each.
    * Finally, **edit the country code** making sure to enter this in UPPERCASE as a two-digit code.
    * **Save the file and exit the editor**.
-   * **Safely eject the media** and only then **remove it from your workstation**.
+   * **Safely eject the media** and only then **remove it from your remote computer**.
 
 ## First boot
 Put the microSD into the Raspberry Pi 3B. Connect the power adapter to the micro USB connector and plug it into a power outlet.
@@ -86,14 +87,14 @@ Assuming that the Raspberry connected to your wi-fi network, both OSX and Linux 
 >
 > Windows installations which have iTunes installed should also be able to resolve `octopi.local` into its IP address.
 >
-> Users with Windows installations *without* iTunes might need to do some detective work in order to find and use the IP address of the Raspberry. Check your router's DHCP area to see what it issued.
+> Users with Windows installations *without* iTunes might need to do some [detective work](https://www.dirtyoptics.com/find-raspberry-pi-ip-address/) in order to find and use the IP address of the Raspberry. Check your router's DHCP area to see what it issued.
 
 ## Connect remotely to the Raspberry Pi 3B
 * **OSX** or **Linux**: From a command prompt, `ssh pi@octopi.local` using `raspberry` as the password
 * **Windows**: If you don't otherwise have it, download and install [PuTTY](https://www.ssh.com/ssh/putty/windows/install) then connect as the `pi` user to the IP address your router has issued to the Raspberry Pi. It may be necessary to log into your router to determine which address was given. If you have previously installed iTunes, then you should be able to more easily use the Pi's hostname of `octopi.local`. See the Name "Resolution section" above. As above, the password is `raspberry`.
 
 ## Visit the web interface
-Assuming that your Raspberry Pi connected to your wi-fi network, try visiting the address [http://octopi.local](http://octopi.local) from your workstation.
+Assuming that your Raspberry Pi connected to your wi-fi network, try visiting the address [http://octopi.local](http://octopi.local) from your remote computer.
 
 For Windows users without iTunes, you might have to enter an IP address instead of `octopi.local` to reach your instance.
 
@@ -102,6 +103,9 @@ Before removing power from the Raspberry Pi, make sure to shutdown the OctoPrint
 
 1. From the OctoPrint web interface: *System menu -> Shutdown*
 2. From a remote shell to the Raspberry Pi: `sudo poweroff`
+3. (After 30 seconds for Raspbian to shut down) remove power from the Raspberry Pi by unplugging it
+
+Simply plug the power back in again to boot everything up.
 
 --
 
@@ -116,7 +120,8 @@ There are some common reasons why you might not be able to remotely connect on f
 4. You could try the command `ping octopi.local` to see if the hostname can be resolved and to determine if packets can be routed to the Raspberry Pi.
 5. For OSX/Linux, remember to prefix the hostname with which user you're trying to connect as:  `ssh pi@octopi.local`
 6. For Windows, remember to attempt to connect as the `pi` user.
-7. Booting the Raspberry Pi with its own monitor/keyboard/mouse is sometimes helpful to verify that Raspbian is at least booting. Feel free to log in when prompted. The command `ifconfig` will reveal if the `wlan0` wi-fi adapter is in the RUNNING state. This means that it connected successfully to your wi-fi network and it received an IPv4 IP address. If you see the address, you can try to use it to remotely connect from your workstation. If the adapter is not in the RUNNING state then try again to edit the configuration file from earlier.
+7. Booting the Raspberry Pi with its own monitor/keyboard/mouse is sometimes helpful to verify that Raspbian is at least booting. Feel free to log in when prompted. The command `ifconfig` will reveal if the `wlan0` wi-fi adapter is in the RUNNING state. This means that it connected successfully to your wi-fi network and it received an IPv4 IP address. If you see the address, you can try to use it to remotely connect from your remote computer. If the adapter is not in the RUNNING state then try again to edit the configuration file from earlier.
+8. Connecting an Ethernet cable to the Raspberry and connecting that to your router is useful in troubleshooting wi-fi connectivity problems. Your router should issue an IP address more easily in this way, allowing a remote connection. You may need to reboot for the adapter to receive an address.
 
 --
 
