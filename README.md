@@ -125,7 +125,7 @@ Before removing power from the Raspberry Pi, make sure to shutdown the OctoPrint
 
 Simply plug the power back in again to boot everything up.
 
---
+---
 
 # Troubleshooting
 
@@ -141,7 +141,7 @@ There are some common reasons why you might not be able to remotely connect on f
 7. Booting the Raspberry Pi with its own monitor/keyboard/mouse is sometimes helpful to verify that Raspbian is at least booting. Feel free to log in when prompted. The command `ifconfig` will reveal if the `wlan0` wi-fi adapter is in the RUNNING state. This means that it connected successfully to your wi-fi network and it received an IPv4 IP address. If you see the address, you can try to use it to remotely connect from your remote computer. If the adapter is not in the RUNNING state then try again to edit the configuration file from earlier.
 8. Connecting an Ethernet cable to the Raspberry and connecting that to your router is useful in troubleshooting wi-fi connectivity problems. Your router should issue an IP address more easily in this way, allowing a remote connection. You may need to reboot for the adapter to receive an address.
 
---
+---
 
 # Optional topics
 
