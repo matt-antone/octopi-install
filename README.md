@@ -26,26 +26,35 @@ Before starting your installation, it's best to gather some things together firs
 - [ ] Local TFT or similar touch screen for the Raspberry [1](#SunFounder)
 
 ### Required software
-1. If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/).
-2. If you're on Windows and you don't otherwise have it on your remote computer, download and install [Notepad++](https://notepad-plus-plus.org)
-3. Download the latest OctoPi image and save it as a zip file on your computer's **Desktop** folder. To minimize browser-unzip problems, the recommended method is:
+1. **Windows**:
+  * If you don't otherwise have it on your remote computer, download and install [Notepad++](https://notepad-plus-plus.org)
+  * If you don't otherwise have `curl` as a command line tool on your remote computer, download [curl](https://curl.haxx.se/download.html#Win32) and place it somewhere in your path like the SYSTEM32 folder
+  * If you don't otherwise have iTunes on your remote computer, download and install [Bonjour](https://support.apple.com/kb/DL999) (to assist in name resolution)
+  * If you don't otherwise have it on your remote computer, download and install [PuTTY](https://www.ssh.com/ssh/putty/windows/install)
+2. **Linux**: If you don't otherwise have it on your remote computer, download and install [Avahi](http://avahi.org) as a service discovery tool (to assist in name resolution)
+3. **All**:
+  * If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/).
+  * Download the latest **OctoPi** image and save it as a zip file to your computer's **Desktop** folder. To minimize browser-unzip problems, the recommended method is:
 
-```
+      ```
 curl -L -o ~/Desktop/octopi.zip https://octopi.octoprint.org/latest
-```
+      ```
 
-Copy/paste this into a command prompt on your remote computer.
+      Copy/paste this into a command prompt on your remote computer.
 
-![desktopwithoctopi](https://user-images.githubusercontent.com/15971213/50716686-99238b80-1037-11e9-925d-d40c00fae788.png)
+      ![desktopwithoctopi](https://user-images.githubusercontent.com/15971213/50716686-99238b80-1037-11e9-925d-d40c00fae788.png)
 
 ## Installation
-1. If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/)
-2. Insert the microSD card into your remote computer, start Etcher, select the `octopi.zip` file on your Desktop, verify that your microSD media is selected and press `Flash!`
+1. Insert the microSD card into your remote computer
+2. Start **Etcher**
+3. Select the `octopi.zip` file on your Desktop
+4. Verify that your microSD media is selected
+5. Press `Flash!`
 
 ![etcherscreenshot](https://user-images.githubusercontent.com/15971213/50716913-d6d4e400-1038-11e9-9645-3a4004a37971.png)
 
 ## Next, edit the wi-fi configuration
-**Etcher** should dutifully eject the media when it's finished. Since we need to make one edit, follow along:
+**Etcher** should dutifully eject the media when it's finished. But since we still need to make an edit, do the following:
 
 &nbsp;1. remove/replace the microSD card so that it's mounted again
 
@@ -53,12 +62,12 @@ Copy/paste this into a command prompt on your remote computer.
 > 
 > Regardless, DO NOT choose any options to format the media!
 
-&nbsp;2. Using a safe editor, you need to edit a file called `octopi-wpa-supplicant.txt` which is located on the `boot` partition.
+&nbsp;2. Edit the file `octopi-wpa-supplicant.txt` which is located on the `boot` partition.
 
-   * **OSX**: From **Terminal**, `sudo nano /Volumes/boot/octopi-wpa-supplicant.txt`
+   * **OSX**: From **Terminal**, `sudo nano /Volumes/boot/octopi-wpa-supplicant.txt` (you will be prompted for your Mac user's password)
    * **Windows**: In **Explorer**, go to the `boot` disk, right-mouse click on `octopi-wpa-supplicant.txt` and choose **Open With...** -> **Notepad++** (make sure UTF-8 encoding is selected)
    * **Linux**: If you're in a Desktop interface, you should be able to double-click this file in the `boot` partition. Otherwise, using `sudo nano` to edit the file would be necessary once you find the mount point.
-   * Erase all the file's original contents and replace with this to begin with.
+   * **All**: Erase all the file's original contents and replace with this as a starting point...
 
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -78,25 +87,34 @@ network={
    * **Safely eject the media** and only then **remove it from your remote computer**.
 
 ## First boot
-Put the microSD into the Raspberry Pi 3B. Connect the power adapter to the micro USB connector and plug it into a power outlet.
+Insert the microSD into the Raspberry Pi 3B. Connect the power adapter to the micro USB connector and plug it into a power outlet.
 
 Watch for activity on the LEDs which are on the Raspberry Pi.
 
 > **Name resolution**: 
 Assuming that the Raspberry connected to your wi-fi network, both OSX and Linux will likely be able to find the new installation using its hostname of `octopi.local`.
 >
-> Windows installations which have iTunes installed should also be able to resolve `octopi.local` into its IP address.
+> Windows installations which have iTunes or Bonjour installed should also be able to resolve `octopi.local` into its IP address.
 >
-> Users with Windows installations *without* iTunes might need to do some [detective work](https://www.dirtyoptics.com/find-raspberry-pi-ip-address/) in order to find and use the IP address of the Raspberry. Check your router's DHCP area to see what it issued.
+> Users with Windows installations *without* iTunes or Bonjour might need to do some [detective work](https://www.dirtyoptics.com/find-raspberry-pi-ip-address/) in order to find and use the IP address of the Raspberry. Check your router's DHCP area to see what it issued.
 
 ## Connect remotely to the Raspberry Pi 3B
 * **OSX** or **Linux**: From a command prompt, `ssh pi@octopi.local` using `raspberry` as the password
-* **Windows**: If you don't otherwise have it, download and install [PuTTY](https://www.ssh.com/ssh/putty/windows/install) then connect as the `pi` user to the IP address your router has issued to the Raspberry Pi. It may be necessary to log into your router to determine which address was given. If you have previously installed iTunes, then you should be able to more easily use the Pi's hostname of `octopi.local`. See the Name "Resolution section" above. As above, the password is `raspberry`.
+* **Windows**: Start PuTTY then connect as the `pi` user to either `octopi.local` or to the IP address your router has issued to the Raspberry Pi. As above, the password is `raspberry`.
+
+> **Windows**: It may be necessary to log into your router to determine which address was given. If you have previously installed iTunes, then you should be able to more easily use the Pi's hostname of `octopi.local`. See the Name "Resolution section" above.
+
+## Make some adjustments
+Once remotely-connected with `ssh` or `PuTTY`, visit the `sudo raspi-config` utility (using the password `raspberry` as before).
+
+Once there, adjust the localisation features for your timezone, wi-fi zone and locale. When finished, allow it to reboot. Note that once the reboot is initiated, you will lose your remote connection which is to be expected.
+
+> In my case (US and English), for the locale setting it was necessary to scroll down to the `en_GB.UTF-8` setting. I then pressed the space bar to remove the checkbox, scrolling down to the `en_US.UTF-8` setting. I pressed the space bar again to select, advancing to the next screen. From here, I then chose `en_US.UTF-8` for the default locale.
 
 ## Visit the web interface
 Assuming that your Raspberry Pi connected to your wi-fi network, try visiting the address [http://octopi.local](http://octopi.local) from your remote computer.
 
-For Windows users without iTunes, you might have to enter an IP address instead of `octopi.local` to reach your instance.
+> For Windows users without iTunes or Bonjour, you might have to enter an IP address instead of `octopi.local` to reach your instance.
 
 ## Shutting down OctoPrint before poweroff
 Before removing power from the Raspberry Pi, make sure to shutdown the OctoPrint service:
