@@ -36,13 +36,13 @@ Before starting your installation, it's best to gather some things together firs
   * If you don't otherwise have it on your remote computer, download and install [Etcher](https://www.balena.io/etcher/).
   * Download the latest **OctoPi** image and save it as a zip file to your computer's **Desktop** folder. To minimize browser-unzip problems, the recommended method is:
 
-      ```
+```
 curl -L -o ~/Desktop/octopi.zip https://octopi.octoprint.org/latest
-      ```
+```
 
-      Copy/paste this into a command prompt on your remote computer.
+Copy/paste this into a command prompt on your remote computer.
 
-      ![desktopwithoctopi](https://user-images.githubusercontent.com/15971213/50716686-99238b80-1037-11e9-925d-d40c00fae788.png)
+![desktopwithoctopi](https://user-images.githubusercontent.com/15971213/50716686-99238b80-1037-11e9-925d-d40c00fae788.png)
 
 ## Installation
 1. Insert the microSD card into your remote computer
