@@ -111,6 +111,12 @@ Once there, adjust the localisation features for your timezone, wi-fi zone and l
 
 > In my case (US and English), for the locale setting it was necessary to scroll down to the `en_GB.UTF-8` setting. I then pressed the space bar to remove the checkbox, scrolling down to the `en_US.UTF-8` setting. I pressed the space bar again to select, advancing to the next screen. From here, I then chose `en_US.UTF-8` for the default locale.
 
+## Turn off wifi sleep mode
+If you're using wifi, I find that if you leave the octoprint server running and not printing eventually power saving will kick in and the wireless adapter will disconnect. If you run your pi without a keyboard or mouse, you won't be able to wake the machine.
+```
+sudo iw wlan0 set power_save off
+```
+
 ## Visit the web interface
 Assuming that your Raspberry Pi connected to your wi-fi network, try visiting the address [http://octopi.local](http://octopi.local) from your remote computer.
 
